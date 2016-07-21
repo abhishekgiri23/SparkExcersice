@@ -1,0 +1,51 @@
+
+Q1​.Create an RDD (Resilient Distributed Dataset) named ​pagecounts​ from the input file. 
+
+ans:val pagecounts = sc.textFile("/home/knoldus/Documents/spark_session")
+pagecounts: org.apache.spark.rdd.RDD[String] = /home/knoldus/Documents/spark_session MapPartitionsRDD[4] at textFile at <console>:27
+
+======================================================================================================================================
+
+Q2​.Get the 10 records from the data and write the data which is getting printed/displayed.
+ 
+Ans:pagecounts.take(10)
+res12: Array[String] = Array(aa 112_f.Kr 1 4606, aa 2,4-Dinitrophenylhydrazine/en/Brady%27s_test 1 4680, aa 439_f.Kr 1 4605, aa Celestino_Marchant 1 4611, aa Eduard_O%E2%80%99Rourke/de/Eduard_O%27Rourke 1 4688, aa File:Douris_Man_with_wax_tablet.jpg 1 7848, aa File:UpdatedPlanets2006.jpg 1 8839, aa File:Wikipedia_h2g2.jpg 1 8838, aa Islam_in_Tunisia/en/Shi%27a_Islam_in_Tunisia 1 4675, aa Kk/
+Special:Imagelist 1 4613)
+
+=======================================================================================================================================
+
+Q3​.How many records in total are in the given data set ? 
+
+Ans:val pagecounts = sc.textFile("/home/knoldus/Documents/spark_session")
+	pagecounts.count
+	res0: Long = 7598006
+
+========================================================================================================================================
+
+Q4​.The first field is the “project code” and contains information about the language of the pages. For example, the project code “en” indicates an English page. Derive an RDD containing only English pages from pagecounts​
+
+Ans:val projectCode=pagecounts.map(line => line.split(" ")(0))
+projectCode: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[7] at map at <console>:29
+
+val enLanguageRDD=projectCode.filter(word=>word.contains("en"))
+enLanguageRDD: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[5] at filter at <console>:31
+
+
+
+
+========================================================================================================================================
+
+Q5​.How many records are there for English pages? 
+
+ans:enLanguageRDD.count
+res4: Long = 2389787 
+
+
+=========================================================================================================================================
+Q6.Find the pages that were requested more than 200,000 times in total. 
+ans:
+
+
+
+
+
