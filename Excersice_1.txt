@@ -24,26 +24,32 @@ Ans:val pagecounts = sc.textFile("/home/knoldus/Documents/spark_session")
 
 Q4​.The first field is the “project code” and contains information about the language of the pages. For example, the project code “en” indicates an English page. Derive an RDD containing only English pages from pagecounts​
 
-Ans:val projectCode=pagecounts.map(line => line.split(" ")(0))
+Ans:val projectCode=pagecounts.map(line => line.split(" "))
 projectCode: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[7] at map at <console>:29
 
-val enLanguageRDD=projectCode.filter(word=>word.contains("en"))
+val enLanguageRDD=projectCode.filter(en => en(0).toLowerCase == "en")
 enLanguageRDD: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[5] at filter at <console>:31
-
-
-
 
 ========================================================================================================================================
 
 Q5​.How many records are there for English pages? 
 
 ans:enLanguageRDD.count
-res4: Long = 2389787 
+res5: Long = 2278417 
 
 
 =========================================================================================================================================
 Q6.Find the pages that were requested more than 200,000 times in total. 
-ans:
+ans:val requestPage=projectCode.map(page => (page(1),page(2).toDouble)).groupByKey().mapValues(page => page.reduce(_+_)).filter(page => page._2 > 200000)
+requestPage: org.apache.spark.rdd.RDD[(String, Double)] = MapPartitionsRDD[12] at filter at <console>:31
+
+requestPage.count
+res7: Long = 11 
+
+requestPage.collect
+res8: Array[(String, Double)] = Array((de,1040678.0), (ru,477729.0), (Special:HideBanners,1362459.0), (pt,320239.0), (Main_Page,450191.0), (ja,335982.0), (en,4925925.0), (it,746508.0), (fr,783966.0), (pl,223976.0), (es,1083799.0))
+
+
 
 
 
