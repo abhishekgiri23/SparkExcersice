@@ -1,0 +1,43 @@
+Q1​ - How many different types of calls were made to the Fire Department ? 
+Ans - val fireServiceDS= spark.read.option("header","true").csv("/home/knoldus/Documents/Fire_Department_Calls_for_Service.csv")
+      fireServiceDS: org.apache.spark.sql.DataFrame = [Call Number: string, Unit ID: string ... 32 more fields]
+      
+      fireServiceDS.printSchema()
+      val callType=fireServiceDS.select("Call Type").distinct()
+      val callTypeCount=callType.count
+      callTypeCount: Long = 33 
+
+=================================================================================================================================================
+
+Q2​ - How many incidents of each call type were there ?
+Ans- val incidentCall = fireServiceDS.groupBy("Call Type").count()
+     incidentCall: org.apache.spark.sql.DataFrame = [Call Type: string, count: bigint]
+     incidentCall.count()
+
+=================================================================================================================================================
+
+Q3 - ​How many years of Fire Service Calls in the data file ?
+Ans - val previousYearCalls = fireServiceDS.select("Call Date").map(year => year.getString(0).split("/")(2)).distinct()
+      previousYearCalls: org.apache.spark.sql.Dataset[String] = [value: string]
+      previousYearCalls.show()
+      previousYearCalls.count()
+      res8: Long = 12
+
+
+
+
+=================================================================================================================================================
+Q4 - How many service calls were logged in the last 7 days ?
+Ans - 
+
+
+
+
+=================================================================================================================================================
+Q5 - Which neighbourhood in SF generated the most calls last year ?
+Ans - 
+
+
+
+      
+
